@@ -65,6 +65,7 @@
 			},
 			success : function(){
 				alert("탈퇴처리 되었습니다.");
+				location.reload();
 			},
 			error : function(){
 				alert("처리오류");
