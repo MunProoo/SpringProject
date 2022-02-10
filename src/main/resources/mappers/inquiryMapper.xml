@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.cjs2108_mjyProject.dao.InquiryDAO">
+	<insert id="setInquiry">
+		INSERT INTO inquiry VALUES(default, #{vo.nickName}, #{vo.category}, #{vo.title}, default, default, #{vo.content});
+	</insert>
+	
+	<select id="getInquiryList" resultType="com.spring.cjs2108_mjyProject.vo.InquiryVO">
+		SELECT *, cast(timestampdiff(minute, iDate, now())/60 as signed integer) as diffTime 
+			FROM inquiry WHERE nickName = #{nickName} order by idx DESC;
+	</select>
+	
+	<select id="getAllInquiryList" resultType="com.spring.cjs2108_mjyProject.vo.InquiryVO">
+		<if test="reply == '전체'">
+			SELECT * FROM inquiry order by idx desc;
+		</if>
+		<if test="reply != '전체'">
+			SELECT * FROM inquiry WHERE status=#{reply} order by idx desc;
+		</if>
+		
+	</select>
+	
+	<update id="updateInquiryStatus">
+		UPDATE inquiry SET status = '답변완료' WHERE idx = #{inquiryIdx};
+	</update>
+	
+	<insert id="setInquiryAnswer" >
+		INSERT INTO inquiryReply VALUES (default, #{inquiryIdx}, #{ansContent}, default);
+	</insert>
+	
+	<select id="getAnswer" resultType="com.spring.cjs2108_mjyProject.vo.InquiryVO">
+		SELECT * FROM inquiryReply WHERE inquiryIdx = #{inquiryIdx};
+	</select>
+	
+	<delete id="deleteInquiry">
+		DELETE 
+		FROM inquiry 
+		WHERE idx in
+		<foreach collection="array" item="arr" open="(" close=")" separator=",">
+			#{arr}
+		</foreach>
+		;
+	</delete>
+	
+	<delete id="deleteInquiryAns">
+		DELETE
+		FROM inquiryReply 
+		WHERE inquiryIdx in
+		<foreach collection="array" item="arr" open="(" close=")" separator=",">
+			#{arr}
+		</foreach>
+		;
+	</delete>
+	
+	<select id="getNewInquiry" resultType="int">
+		SELECT count(*) FROM inquiry WHERE status = '답변대기중' ;
+	</select>
+	
+	<update id="inquiryContentUpdate">
+		UPDATE inquiry
+		   SET content = #{content} 
+		 WHERE idx = #{idx};
+	</update>
+	
+	<update id="inquiryAnsUpdate">
+		UPDATE inquiryReply 
+		   SET ansContent = #{ansContent} 
+		 WHERE inquiryIdx = #{inquiryIdx};
+	</update>
+	
+</mapper>

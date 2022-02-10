@@ -1,0 +1,220 @@
+@font-face {
+	font-family: 'S-CoreDream-3Light';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body{
+	font-family: 'S-CoreDream-3Light';
+}
+.container{
+	font-family: 'S-CoreDream-3Light';
+}
+nav{
+	font-family: 'S-CoreDream-3Light';
+}
+div{
+	font-family: 'S-CoreDream-3Light';
+}
+.toMain{
+	font-family: '서울남산 장체EB';
+}
+.xibutton{
+	font-size:1.8em;
+	border:1px solid #333030; 
+	border-radius:5px; 
+	padding:3px;
+	text-decoration: none;
+	color:black;
+	transition:0.2s;
+}
+.xibutton:hover{
+	text-decoration: none;
+	border:1px solid #a3a1a1;
+	color:grey;
+}
+
+body{
+  animation: fadein 0.5s;
+}
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+.atag{
+  text-decoration: none;
+  color:black;
+  transition:0.2s;
+}
+.atag:hover{
+  text-decoration: none;
+  color:grey;
+}
+.mainDiv{
+  padding: 10px;
+  /* background-color: #333030;  */
+  margin:auto;
+}
+.btnPlus{
+  margin: auto;
+  display: block;
+}
+
+.subMenu{
+  float:left; 
+/* 		width:25%;  */
+  border:1px solid #e3dede;
+  border-radius:5px;
+  
+}
+.subMenuTitle{
+  border-bottom:2px solid #6AAFE6;
+  padding:20px;
+  text-align:center;
+  font-weight:700;
+  font-size:1.5em;
+  background-color:#d6ecfa;
+}
+.subMenuList{
+  padding-top:16px;
+  padding-bottom:16px;
+  text-align:center;
+}
+.mainContent{
+  float:left;
+/* 		width:75%; */
+  padding-left:50px; 
+  padding-top:20px;
+}
+
+body{
+  /* background-image: url("../../images/2.png"); */
+  background-size: 100% 100%;
+  background-repeat: no-repeat; 
+}
+.bigMenu{
+  padding:0;
+}
+.nav-main-ul{
+  width: 100%;
+  position: relative;
+  list-style:none;
+  text-align: center;
+}
+.nav-main-li{
+  position: relative;
+  /* height: 100%; */
+  width: 20%;
+  float: left;
+}
+.nav-main-li:hover{
+  font-size: 1.5em;
+}
+#MOVE_TOP_BTN:focus {
+  outline: none;
+}
+#MOVE_TOP_BTN {
+  position: fixed;
+  right: 2%;
+  bottom: 2%;
+  /* display: none; */
+  z-index: 999;
+  color: rgb(11, 121, 121);
+  background-color: aliceblue;
+  padding: 20px;
+  border: 1px solid #d9e1e8;
+  border-radius: 5px;
+  text-decoration: none;
+}
+.nav-sub-ul{
+  position:absolute;
+  height: 0px;
+  overflow: hidden; /*hidden*/
+  transition: 0.5s;
+  text-align: center;
+  margin-left: 0;
+  width: 100%;
+  background-color: #EFF8FB;
+  border-radius: 0 0 15px 15px;
+}
+
+.nav-sub-li{
+  width: 100%;
+  color: rgb(145, 72, 72);
+  margin-right: 40px;
+  text-decoration: none;
+}
+.nav-sub-li:hover{
+  transition:0.5s;
+  color: black;
+  text-decoration: none;
+}
+.nav-sub-ul li{
+  margin-left: 0;
+  display: block;
+}
+.nav-main-ul:hover .nav-sub-ul{
+	height:200px;
+  font-size: 13px;
+}
+.nav-link{
+  padding: 10px 0 ;
+}
+
+.h2{
+  text-align: center;
+}
+
+/* @media screen and (min-width : 750px){ */
+	.subMenu{
+		float:left; 
+/* 		width:25%;  */
+		border:1px solid #e3dede;
+		border-radius:5px;
+		
+	}
+	.subMenuTitle{
+		border-bottom:2px solid #6AAFE6;
+		padding:20px;
+		text-align:center;
+		font-weight:700;
+		font-size:1.5em;
+		background-color:#d6ecfa;
+	}
+	.subMenuList{
+		padding-top:16px;
+		padding-bottom:16px;
+		text-align:center;
+	}
+	.mainContent{
+		float:left;
+/* 		width:75%; */
+ 		padding-left:50px; 
+		padding-top:20px;
+	}
+/* } */
+@media screen and (max-width : 991px){
+	.mainDiv img{
+		width: 300px; 
+		height: 200px;
+	}
+	.nav-main-ul:hover .nav-sub-ul{
+	height:0px;
+	}
+	.nav-main-li{
+		width:100%;
+		display: inline-block;
+	}
+}
+@media screen and (max-width : 650px){
+	.mainDiv img{
+		width: 150px; 
+		height: 100px;
+	}
+}
+

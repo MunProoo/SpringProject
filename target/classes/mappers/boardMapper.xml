@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.cjs2108_mjyProject.dao.BoardDAO">
+	<select id="getBoardList" resultType="com.spring.cjs2108_mjyProject.vo.BoardVO">
+		<if test = "lately == 0">
+			SELECT * , cast(timestampdiff(minute, wDate, now())/60 as signed integer) as diffTime, (SELECT count(*) FROM boardReply WHERE boardIdx = board.idx) as replyCnt
+			  FROM board
+			 ORDER BY idx DESC
+			 LIMIT #{startIndexNo}, #{pageSize};
+		</if>
+		<if test = "lately != 0">
+			SELECT * , cast(timestampdiff(minute, wDate, now())/60 as signed integer) as diffTime
+			  FROM board
+			 WHERE DATE_SUB(now(), interval ${lately} day) <![CDATA[ < wDate]]>
+			 ORDER BY idx DESC
+			 LIMIT #{startIndexNo}, #{pageSize};
+		</if>
+	</select>
+	
+	<select id="totRecCnt" resultType="int">
+		<if test="lately == 0">
+			SELECT count(*)
+			FROM board;
+		</if>
+		<if test="lately != 0">
+			SELECT count(*)
+			FROM board
+			WHERE DATE_SUB(now(), interval ${lately} day) <![CDATA[ < wDate;]]>
+		</if>
+	</select>
+	
+	<insert id="setBoardInput">
+		INSERT INTO board
+		VALUES(default ,#{vo.nickName} ,#{vo.title} ,#{vo.content} ,default ,default ,#{vo.hostIp} ,default ,#{vo.mid});
+	</insert>
+
+	<update id="addReadNum">
+		UPDATE board 
+		SET readNum = readNum + 1 WHERE idx = #{idx};
+	</update>
+	
+	<select id="getPreNext" resultType="com.spring.cjs2108_mjyProject.vo.BoardVO">
+		SELECT idx,title 
+		FROM board 
+		WHERE idx IN (
+		  (SELECT idx FROM board WHERE <![CDATA[idx < #{idx}]]> order by idx desc limit 1),
+		  (SELECT idx FROM board WHERE <![CDATA[idx > #{idx}]]> order by idx limit 1));
+	</select>
+	
+	<update id="addGood">
+		UPDATE board
+		SET good = good + 1 
+		WHERE idx = #{idx};
+	</update>
+	
+	<select id="getBoardReply" resultType="com.spring.cjs2108_mjyProject.vo.BoardVO">
+		SELECT * , count(*) as replyCnt
+		FROM boardReply
+		WHERE boardIdx = #{idx} order by idx;
+	</select>
+	
+	
+	<select id="maxLevelOrder" resultType="String">
+		SELECT max(levelOrder)
+		FROM boardReply
+		WHERE boardIdx = #{boardIdx};
+	</select>
+	
+	<insert id="setReplyInsert">
+		INSERT INTO boardReply
+		VALUES (default, #{rVo.boardIdx}, #{rVo.mid}, #{rVo.nickName}, default, #{rVo.hostIp}, #{rVo.content}, default, #{rVo.levelOrder});
+	</insert>
+	
+	<update id="levelOrderPlusUpdate">
+		UPDATE boardReply 
+		SET levelOrder = levelOrder + 1 
+		WHERE boardIdx = #{rVo.boardIdx} and levelOrder <![CDATA[ > ]]> #{rVo.levelOrder}; 
+	</update>
+	
+	<insert id="setReplyInsert2">
+		INSERT INTO boardReply
+		VALUES (default, #{rVo.boardIdx}, #{rVo.mid}, #{rVo.nickName}, default, #{rVo.hostIp}, #{rVo.content}, #{rVo.level}, #{rVo.levelOrder});
+	</insert>
+	
+	<delete id="setReplyDelete">
+		DELETE FROM boardReply
+		WHERE idx = #{replyIdx};
+	</delete>
+	
+	<select id="getBoardContent" resultType="com.spring.cjs2108_mjyProject.vo.BoardVO">
+		SELECT * 
+		FROM board
+		WHERE idx = #{idx};
+	</select>
+	
+	<delete id="setBoardDelete">
+		DELETE FROM board
+		WHERE idx = #{idx};	
+	</delete>
+	
+	<update id="setBoardUpdate">
+		UPDATE board 
+		   SET title=#{vo.title},content=#{vo.content},wDate=now(),hostIp=#{vo.hostIp} 
+		 WHERE idx=#{vo.idx};
+	</update>
+	
+	<delete id="deleteBoardList">
+		DELETE
+		  FROM board 
+		 WHERE idx in
+		<foreach collection="array" item="arr" open="(" close=")" separator=",">
+			#{arr}
+		</foreach>
+		;
+	</delete>
+	
+	<select id="getBoardContentList" resultType="com.spring.cjs2108_mjyProject.vo.BoardVO">
+		SELECT * 
+		  FROM board
+		 WHERE idx in
+		<foreach collection="array" item="arr" open="(" close=")" separator=",">
+			#{arr}
+		</foreach>
+		;
+	</select>
+	
+	<select id="totRecCntSearch" resultType="int">
+		SELECT count(*)
+		FROM board
+		WHERE ${search} like concat('%',#{searchString},'%') and DATE_SUB(now(), interval ${lately} day) <![CDATA[ <= wDate]]>
+		ORDER BY idx DESC;
+	</select>
+	
+	<select id="getBoardListSearch" resultType="com.spring.cjs2108_mjyProject.vo.BoardVO">
+		SELECT * , cast(timestampdiff(minute, wDate, now())/60 as signed integer) as diffTime
+		FROM board
+		WHERE ${search} like concat('%',#{searchString},'%') and DATE_SUB(now(), interval ${lately} day) <![CDATA[ <= wDate]]>
+		ORDER BY idx DESC
+		LIMIT #{startIndexNo}, #{pageSize};
+	</select>
+	
+	
+	
+</mapper>
