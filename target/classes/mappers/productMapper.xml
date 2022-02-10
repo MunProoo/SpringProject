@@ -378,9 +378,7 @@
 	<select id="getProductListName" resultType="com.spring.cjs2108_mjyProject.vo.ProductVO">
 		SELECT *
 		FROM product
-		WHERE productName like concat('%',#{productName},'%') 
-		   OR detail like concat('%',#{productName},'%')
-		ORDER BY idx DESC;
+		WHERE productName like concat('%',#{productName},'%') ORDER BY idx DESC;
 	</select>
 	
 	<insert id="setRecoProduct">

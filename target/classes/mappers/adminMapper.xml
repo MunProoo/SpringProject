@@ -15,7 +15,7 @@
 	</select>
 	
 	<select id="totRecCntMid" resultType="int">
-		SELECT count(*) FROM member WHERE mid like concat('%', #{mid}, '%');
+		SELECT count(*) FROM member WHERE mid = #{mid};
 	</select>
 
 	<select id="getMemberList" resultType="com.spring.cjs2108_mjyProject.vo.MemberVO">
@@ -35,7 +35,7 @@
 	<select id="getMemberListMid" resultType="com.spring.cjs2108_mjyProject.vo.MemberVO">
 		SELECT * 
 		  FROM member 
-		 WHERE mid like concat('%', #{mid}, '%')
+		 WHERE mid = #{mid}
 		 order by idx desc limit #{startIndexNo}, #{pageSize};
 	</select>
 	

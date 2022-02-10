@@ -207,8 +207,8 @@ th{
 	    <tr>
 	      <th>등록일</th>
 	      <td>
-	      	<c:if test="${vo.diffTime <= 24}">${fn:substring(vo.wDate,11,19)}</c:if>
-	        <c:if test="${vo.diffTime >  24}">${fn:substring(vo.wDate,0,10)}</c:if>
+	      	<c:if test="${vo.diffTime <= 24}">${fn:substring(vo.WDate,11,19)}</c:if>
+	        <c:if test="${vo.diffTime >  24}">${fn:substring(vo.WDate,0,10)}</c:if>
 	      </td>
 	      <th>조회수</th>
 	      <td>${vo.readNum}</td>
@@ -282,7 +282,7 @@ th{
 		        <td>
 		          ${rVo.content}
 		        </td>
-		        <td>${rVo.wDate}</td>
+		        <td>${rVo.WDate}</td>
 		        <td>${rVo.hostIp}</td>
 		        <td>
 		          <input type="button" class="btn btn-outline-secondary" value="답글" onclick="insertReply('${rVo.idx}','${rVo.level}','${rVo.levelOrder}','${rVo.nickName}')" id="replyBoxOpenBtn${rVo.idx}" />
@@ -305,7 +305,7 @@ th{
 		        <td>
 		          ${rVo.content}
 		        </td>
-		        <td>${rVo.wDate}</td>
+		        <td>${rVo.WDate}</td>
 		        <td>${rVo.hostIp}</td>
 		        <td>
 		          <c:if test="${rVo.mid == sMid}">

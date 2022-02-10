@@ -118,7 +118,6 @@ public class AdminController {
 	  }
 	  else { // 검색한 회원리스트
 	  	vos = adminService.getMemberListMid(startIndexNo, pageSize, mid);
-	  	System.out.println("여기 오는거 맞나?");
 	  }
 	  
 	  model.addAttribute("vos", vos);

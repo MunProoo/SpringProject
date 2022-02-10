@@ -45,8 +45,8 @@
 	         		str += "<hr style='clear:both;color:#ccc;'/>";
 	         		data.ansContent = data.ansContent.replace(/(\n|\r\n)/g, '<br>');
 	            str += "<div style='display:inline;float:left;margin-left:10px;width:100%;'>A : <br/>"+data.ansContent+"</div>";
-	            data.rDate = data.rDate.substring(0,11);
-	            str += "<div style='display:inline;float:right;margin-right:10px;margin-top:5px;test-align:right;'>답변등록일 : "+data.rDate+"</div>";
+	            data.rdate = data.rdate.substring(0,11);
+	            str += "<div style='display:inline;float:right;margin-right:10px;margin-top:5px;test-align:right;'>답변등록일 : "+data.rdate+"</div>";
 	            /* str += "</div>"; */     
 				      str += "</td>";
 				      $("#replytr"+idx).append(str);
@@ -162,8 +162,8 @@
 					</td>
 	        <td>${vo.status}</td>
 	        <td>
-						<c:if test="${vo.diffTime <= 24}">${fn:substring(vo.iDate,11,19)}</c:if>
-						<c:if test="${vo.diffTime >  24}">${fn:substring(vo.iDate,0,10)}</c:if>
+						<c:if test="${vo.diffTime <= 24}">${fn:substring(vo.IDate,11,19)}</c:if>
+						<c:if test="${vo.diffTime >  24}">${fn:substring(vo.IDate,0,10)}</c:if>
 					</td>
 					<td>
 						<input type="button" value="수정" id="inquiryUpdate${vo.idx}" class="btn btn-info" onClick="inquiryUpdate(${vo.idx})">

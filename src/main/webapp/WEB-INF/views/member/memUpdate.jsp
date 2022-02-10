@@ -212,12 +212,12 @@
       <div class="form-check-inline">
         <span class="input-group-text">성별 :</span> &nbsp; &nbsp;
 			  <label class="form-check-label">
-			    <input type="radio" class="form-check-input" name="gender" value="남자" ${vo.gender == '남자' ? 'checked' : ''} >남자
+			    <input type="radio" class="form-check-input" name="gender" ${vo.gender == '남자' ? 'checked' : ''} >남자
 			  </label>
 			</div>
 			<div class="form-check-inline">
 			  <label class="form-check-label">
-			    <input type="radio" class="form-check-input" name="gender" value="여자" ${vo.gender == '여자' ? 'checked' : ''}>여자
+			    <input type="radio" class="form-check-input" name="gender" ${vo.gender == '여자' ? 'checked' : ''}>여자
 			  </label>
 			</div>
     </div>

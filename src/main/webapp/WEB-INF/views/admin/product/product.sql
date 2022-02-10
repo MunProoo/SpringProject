@@ -391,11 +391,4 @@ SELECT p.*, round(avg(r.rating),2) as ratingAvg
 	 and main.categoryMainCode = 'A' order by idx DESC ;
 	 
 	 
-SELECT *
-	FROM product
-	WHERE productName like concat('%','컬러','%') 
-	   OR detail like concat('%','컬러','%')
-	ORDER BY idx DESC;
-	 
-	 
 	  

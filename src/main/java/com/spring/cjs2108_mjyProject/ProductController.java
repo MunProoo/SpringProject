@@ -148,10 +148,7 @@ public class ProductController {
 		originalFilename = sdf.format(date) + "_" + originalFilename;
 		byte[] bytes = upload.getBytes();
 		// ckeditor에서 올린 파일을 서버 파일 시스템에 저장시킨다.
-		
-		String filePath = File.separator + "resources" + File.separator + "data" + File.separator + "shop";
-		String uploadPath = request.getSession().getServletContext().getRealPath(filePath) + File.separator;
-//		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/data/shop/");
+		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/data/shop/");
 		OutputStream outStr = new FileOutputStream(new File(uploadPath + originalFilename));
 		outStr.write(bytes);     // 서버에 업로드시킨 그림파일이 저장된다. (기본 경로)
 		
@@ -745,7 +742,7 @@ public class ProductController {
 		List<BaesongVO> orderVos = new ArrayList<BaesongVO>();
 		
 		// 처음 불러올때의 상황 ( * 시작 날짜를 1년전으로 바꿀것.)
-		if(orderStatus.equals("전체") && startJumun.equals("") && endJumun.equals("")) {
+		if(orderStatus.equals("전체") && startJumun=="" && endJumun=="") {
 			/* 이곳부터 페이징 처리(블록페이지) 변수 지정 시작 */
 			totRecCnt = productService.totRecCntAdmin();
 			totPage = (totRecCnt % pageSize)==0 ? totRecCnt/pageSize : (totRecCnt/pageSize) + 1;

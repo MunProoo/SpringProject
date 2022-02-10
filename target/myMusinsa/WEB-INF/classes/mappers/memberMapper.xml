@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.cjs2108_mjyProject.dao.MemberDAO">
+	<select id="getIdCheck" resultType="com.spring.cjs2108_mjyProject.vo.MemberVO">
+		SELECT * FROM member WHERE mid = #{mid};
+	</select>
+
+	<select id="getNickNameCheck" resultType="com.spring.cjs2108_mjyProject.vo.MemberVO">
+		SELECT * FROM member WHERE nickName = #{nickName};
+	</select>
+
+	<insert id="setMemInput">
+		INSERT INTO member VALUES (default, #{vo.mid}, #{vo.pwd}, #{vo.nickName}, #{vo.name}, #{vo.email},
+			#{vo.gender}, #{vo.birthday}, #{vo.tel}, #{vo.address}, default,default,default);
+	</insert>
+	
+	<update id="setMemUpdate">
+		UPDATE member SET pwd=#{vo.pwd}, nickName=#{vo.nickName}, name=#{vo.name}, gender=#{vo.gender},
+			birthday=#{vo.birthday}, tel=#{vo.tel}, address=#{vo.address}, email=#{vo.email} WHERE mid = #{vo.mid};
+	</update>
+
+	<select id="getIdFind" resultType="com.spring.cjs2108_mjyProject.vo.MemberVO">
+		SELECT * FROM member WHERE email like concat(#{email},'%');
+	</select> 
+	
+	<select id="getPwdFind" resultType="com.spring.cjs2108_mjyProject.vo.MemberVO">
+		SELECT * FROM member WHERE email = #{email} and mid = #{mid};
+	</select>
+	
+	<update id="setPwdChange">
+		UPDATE member SET pwd = #{pwd} WHERE mid = #{mid};
+	</update>
+	
+	<update id="setMemDelete">
+		UPDATE member SET userDel = 'OK' WHERE mid = #{mid};
+	</update>
+	
+	<update id="setPointUpdate">
+		UPDATE member 
+		SET point = point + #{point}
+		WHERE mid = #{mid};
+	</update>
+	
+	<delete id="deleteMember">
+		DELETE 
+		  FROM member
+		  WHERE idx = #{idx};
+	</delete>
+	
+</mapper>

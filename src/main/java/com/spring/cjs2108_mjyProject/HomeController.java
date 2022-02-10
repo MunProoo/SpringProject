@@ -86,16 +86,12 @@ public class HomeController {
 		byte[] bytes = upload.getBytes();
 		
 		// ckeditor에서 올린 파일을 서버 파일시스템에 저장시켜준다.
-		String filePath = File.separator + "resources" + File.separator + "data" + File.separator + "ckeditor" ;
-		String uploadPath = request.getSession().getServletContext().getRealPath(filePath)+File.separator;
-//		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/data/ckeditor/");
+		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/data/ckeditor/");
 		OutputStream outStr = new FileOutputStream(new File(uploadPath + originalFilename));
 		outStr.write(bytes);		// 서버에 업로드시킨 그림파일이 저장된다.
 		
 		// 서버 파일시스템에 저장된 파일을 화면(textarea)에 출력하기
 		PrintWriter out = response.getWriter();
-//		String fileUrl = request.getContextPath() + File.separator + "data" 
-//				+ File.separator + "ckeditor" + File.separator + originalFilename;    // servlet-context.xml에서 data안해서 안됐었나? 그러네..
 		String fileUrl = request.getContextPath() + "/data/ckeditor/" + originalFilename;    // servlet-context.xml에서 data안해서 안됐었나? 그러네..
 		out.println("{\"originalFilename\":\""+originalFilename+"\",\"uploaded\":1,\"url\":\""+fileUrl+"\"}");       /* "atom":"12.jpg","uploaded":1,"": */
 		
