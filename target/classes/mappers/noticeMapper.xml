@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.cjs2108_mjyProject.dao.NoticeDAO">
+	<select id="totRecCnt" resultType="int">
+		SELECT count(*) FROM notice;
+	</select>
+
+	<select id="getNoticeList" resultType="com.spring.cjs2108_mjyProject.vo.NoticeVO">
+		SELECT *, cast(timestampdiff(minute, wDate, now())/60 as signed integer) as diffTime FROM notice 
+			order by idx desc limit #{startIndexNo}, #{pageSize};
+	</select>  
+
+	<insert id="setNoticeInput">
+		insert into notice values (default,#{vo.nickName},#{vo.title},#{vo.content},default,default,#{vo.mid});
+	</insert> 
+
+	<update id="addReadNum">
+		UPDATE notice SET readNum = readNum + 1 WHERE idx = #{idx};
+	</update>
+	
+	<select id="getNoticeContent" resultType="com.spring.cjs2108_mjyProject.vo.NoticeVO">
+		SELECT * , cast(timestampdiff(minute, wDate, now())/60 as signed integer) as diffTime
+		  FROM notice 
+		 WHERE idx = #{idx};
+	</select>
+	
+	<select id="getPreNext" resultType="com.spring.cjs2108_mjyProject.vo.NoticeVO">
+		select idx,title from notice where idx in (
+		  (select idx from notice where <![CDATA[idx < #{idx}]]> order by idx desc limit 1),
+		  (select idx from notice where <![CDATA[idx > #{idx}]]> order by idx limit 1));
+	</select>
+	
+	<delete id="setNoticeDelete">
+		DELETE FROM notice WHERE idx = #{idx};
+	</delete>
+	
+	<update id="setNoticeUpdate">
+		UPDATE notice SET title=#{vo.title}, content=#{vo.content},wDate=now() WHERE idx = #{vo.idx};
+	</update>
+
+</mapper>

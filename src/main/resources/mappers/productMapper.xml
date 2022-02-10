@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.cjs2108_mjyProject.dao.ProductDAO">
+	<select id="getCategoryMains" resultType="com.spring.cjs2108_mjyProject.vo.CategoryVO">
+		SELECT * FROM categoryMain order by categoryMainCode desc;
+	</select>
+	
+	<select id="getCategoryMiddles" resultType="com.spring.cjs2108_mjyProject.vo.CategoryVO">
+		SELECT middle.*, main.categoryMainName as categoryMainName FROM categoryMiddle middle, categoryMain main WHERE middle.categoryMainCode = main.categoryMainCode
+			order by middle.categoryMiddleCode desc;
+	</select>
+	
+	<select id="getCategoryMain" resultType="com.spring.cjs2108_mjyProject.vo.CategoryVO">
+		SELECT * FROM categoryMain WHERE categoryMainCode = #{categoryMainCode};
+	</select>
+	
+	<insert id="setCategoryMain">
+		INSERT INTO categoryMain VALUES (#{categoryMainCode}, #{categoryMainName});
+	</insert>
+	
+	<select id="getCategoryMiddle" resultType="com.spring.cjs2108_mjyProject.vo.CategoryVO">
+		SELECT * FROM categoryMiddle WHERE categoryMiddleCode = #{categoryMiddleCode};
+			<!-- SELECT * FROM categoryMiddle WHERE categoryMainCode = #{categoryCode}; -->
+	</select>
+	
+	<insert id="setCategoryMiddle" >
+		INSERT INTO categoryMiddle VALUES (#{categoryMainCode}, #{categoryMiddleCode}, #{categoryMiddleName});
+	</insert>
+	
+	<delete id="delCategoryMain">
+		DELETE FROM categoryMain WHERE categoryMainCode = #{categoryMainCode};
+	</delete>
+	
+	<delete id="delCategoryMiddle">
+		DELETE FROM categoryMiddle WHERE categoryMiddleCode = #{categoryMiddleCode};
+	</delete>
+	
+	<select id="getCategoryMiddleName" resultType="com.spring.cjs2108_mjyProject.vo.CategoryVO">
+		SELECT * FROM categoryMiddle WHERE categoryMainCode = #{categoryMainCode};
+	</select>
+	
+	<select id="getProductMaxIdx" resultType="com.spring.cjs2108_mjyProject.vo.ProductVO">
+		<!-- SELECT max(idx) FROM product; -->
+		select * from product order by idx desc limit 1;
+	</select>
+	
+	<insert id="setProductInput">
+		INSERT INTO product values (default,#{vo.productCode},#{vo.productName}, #{vo.detail}, #{vo.mainPrice}, #{vo.fName}, 
+			#{vo.fSName}, #{vo.content});
+	</insert>
+	
+	<select id="getProductName" resultType="com.spring.cjs2108_mjyProject.vo.ProductVO">
+		SELECT * FROM product order by idx DESC;
+	</select>
+	
+	<select id="productKeywordSearch" resultType="com.spring.cjs2108_mjyProject.vo.ProductVO">
+		SELECT * 
+		  FROM product 
+		 WHERE productName like concat('%',#{keyword},'%') 
+	        OR detail like concat('%',#{keyword},'%') ;
+	</select>
+	
+	<select id="getProductInfor" resultType="com.spring.cjs2108_mjyProject.vo.ProductVO">
+		SELECT product.*, main.categoryMainName, middle.categoryMiddleName FROM product, categoryMain main, categoryMiddle middle
+			WHERE productName = #{productName} and main.categoryMainCode = #{categoryMainCode} and middle.categoryMiddleCode = #{categoryMiddleCode};
+	</select>
+	
+	<insert id="setColor">
+		INSERT INTO colorOption
+		VALUES (default, #{vo.productIdx}, #{vo.colorName}, #{vo.colorPrice});
+	</insert>
+	
+	<select id="getProduct" resultType="com.spring.cjs2108_mjyProject.vo.ProductVO">
+		SELECT * FROM product WHERE idx = #{idx};
+	</select>
+	
+	<select id="getColor" resultType="com.spring.cjs2108_mjyProject.vo.ProductOptionVO">
+		SELECT c.* , p.productName 
+		FROM colorOption c 
+		JOIN product p ON c.productIdx = p.idx AND c.productIdx = #{idx};
+	</select>
+	
+	<delete id="delColor">
+		DELETE FROM colorOption
+		WHERE idx = #{colorIdx};
+	</delete>
+	
+	<select id="getSize" resultType="com.spring.cjs2108_mjyProject.vo.ProductOptionVO">
+		SELECT s.*, p.productName , c.colorName
+		FROM sizeOption s 
+		INNER JOIN product p 
+		ON s.productIdx = p.idx and s.productIdx = #{productIdx} 
+		INNER JOIN colorOption c 
+		ON s.colorIdx = c.idx and s.colorIdx = #{colorIdx};
+	</select>
+	
+	<delete id="delSize">
+		DELETE FROM sizeOption
+		WHERE idx = #{sizeIdx};
+	</delete>
+		
+	<insert id="setSize">
+		INSERT INTO sizeOption
+		VALUES (default, #{vo.productIdx}, #{vo.colorIdx}, #{vo.sizeName}, #{vo.sizePrice});
+	</insert>
+	
+	<delete id="delProduct">
+		DELETE FROM product WHERE idx = #{idx};
+	</delete>
+	
+	<select id="cartListSearch" resultType="com.spring.cjs2108_mjyProject.vo.CartListVO">
+		SELECT * FROM cartList WHERE productName=#{productName} and mid=#{mid};
+	</select>
+	
+	<update id="cartUpdate">
+		UPDATE cartList 
+		SET optionName=#{vo.optionName}, optionNum=#{vo.optionNum}, optionPrice=#{vo.optionPrice}, totalPrice= totalPrice + #{vo.totalPrice}, cartDate = default
+		WHERE productName = #{vo.productName} and mid = #{vo.mid};
+	</update>
+	
+	<insert id="setCartList">
+		INSERT 
+		INTO cartList
+		VALUES (default,default,#{vo.mid},#{vo.productIdx},#{vo.productName},#{vo.mainPrice},
+			#{vo.thumbImg},#{vo.optionName},#{vo.optionPrice},#{vo.optionNum},#{vo.totalPrice});
+	</insert>
+	
+	<select id="getCartList" resultType="com.spring.cjs2108_mjyProject.vo.CartListVO">
+		SELECT * 
+		FROM cartList
+		WHERE mid = #{mid};
+	</select>
+	
+	<delete id="delCart">
+		DELETE 
+		FROM cartList
+		WHERE idx = #{idx};
+	</delete>	
+	
+	<select id="getCartIdx" resultType="com.spring.cjs2108_mjyProject.vo.CartListVO">
+		SELECT * 
+		FROM cartList 
+		WHERE idx = #{idx};
+	</select>
+	
+	<select id="getOrderMaxIdx" resultType="com.spring.cjs2108_mjyProject.vo.OrderVO">
+		SELECT max(idx) as maxIdx 
+		FROM orderList;
+	</select>
+	
+	<insert id="setOrder">
+		INSERT INTO orderList
+		VALUES (default,#{vo.orderIdx},#{vo.mid},#{vo.productIdx},default,
+			#{vo.productName},#{vo.mainPrice},#{vo.thumbImg},#{vo.optionName},#{vo.optionPrice},#{vo.optionNum},#{vo.totalPrice});
+	</insert>
+	
+	<select id="getOrderIdx" resultType="int">
+		SELECT max(idx) 
+		FROM orderList 
+		WHERE orderIdx = #{orderIdx};
+	</select>
+	
+	<insert id="setBaesong">
+		INSERT INTO baesong
+		VALUES (default, #{vo.oIdx}, #{vo.orderIdx}, #{vo.orderTotalPrice}, #{vo.mid}, #{vo.name}, 
+			#{vo.address}, #{vo.tel}, #{vo.email}, #{vo.message}, #{vo.payment}, default);
+			
+	</insert>
+	
+	<select id="getBaesong" resultType="com.spring.cjs2108_mjyProject.vo.BaesongVO">
+		SELECT * 
+		FROM baesong
+		WHERE mid = #{mid};
+	</select>
+	
+	<select id="getOrderBaesong" resultType="com.spring.cjs2108_mjyProject.vo.BaesongVO">
+		SELECT *
+		FROM baesong
+		WHERE orderIdx = #{orderIdx};
+	</select>
+	
+	<select id="totRecCnt" resultType="int">     <!-- 배송테이블에서 orderStatus가 필요하고 상품관련정보는 orderList에서 가져와야함.. -->
+		SELECT count(*) 
+		FROM orderList
+		WHERE mid = #{mid};
+	</select>
+	
+	<select id="getMyOrder" resultType="com.spring.cjs2108_mjyProject.vo.BaesongVO">
+		SELECT ol.*, b.* 
+		  FROM orderList ol 
+		  JOIN baesong b USING(orderIdx) 
+		 WHERE b.mid=#{mid} order by b.idx desc
+		 LIMIT #{startIndexNo}, #{pageSize};
+	</select>
+	
+	
+	<select id="totRecCntOrderCondition" resultType="int">  <!-- 숫자만 세는것이니까 조인안할거 -->
+		SELECT count(*) 
+		FROM orderList a 
+		<![CDATA[ WHERE a.mid=#{mid} AND date(a.orderDate) >= date(subdate(now(), INTERVAL #{conditionDate} DAY)) 
+		AND date(a.orderDate) <= date(now()) order by a.orderDate desc; ]]> 
+	</select>
+	
+	<select id="orderCondition" resultType="com.spring.cjs2108_mjyProject.vo.BaesongVO">   <!-- baesong테이블 데이터도 가져올것이니 조인 헷갈리지말자 -->
+		SELECT ol.*, b.*
+		FROM orderList ol
+		JOIN baesong b USING(orderIdx)
+		<![CDATA[ WHERE b.mid = #{mid} and date(ol.orderDate) >= date(subdate(now(), INTERVAL #{conditionDate} DAY))
+		AND date(ol.orderDate) <= date(now()) ORDER BY ol.orderDate desc ]]> 
+		LIMIT #{startIndexNo}, #{pageSize};
+	</select>
+	
+	<select id="totRecCntDateConditionStatus" resultType="int">
+		<if test="orderStatus == '전체'">
+			SELECT count(*)
+			FROM orderList ol
+			JOIN baesong b USING(orderIdx)
+			<![CDATA[ WHERE b.mid = #{mid} and date(ol.orderDate) >= date(#{startJumun})
+			AND date(ol.orderDate) <= date(#{endJumun}) ORDER BY ol.orderDate desc; ]]> 
+		</if>
+		<if test="orderStatus != '전체'">
+			SELECT count(*)
+			FROM orderList ol
+			JOIN baesong b USING(orderIdx)
+			<![CDATA[ WHERE b.mid = #{mid} and orderStatus = #{orderStatus} and date(ol.orderDate) >= date(#{startJumun})
+			AND date(ol.orderDate) <= date(#{endJumun}) ORDER BY ol.orderDate desc; ]]> 
+		</if>
+	</select>
+	
+	<select id="orderDateConditionStatus" resultType="com.spring.cjs2108_mjyProject.vo.BaesongVO">
+		<if test="orderStatus == '전체'">
+			SELECT ol.*, b.*
+			  FROM orderList ol
+			  JOIN baesong b USING(orderIdx)
+			<![CDATA[ WHERE b.mid = #{mid} and date(ol.orderDate) >= date(#{startJumun})
+			   AND date(ol.orderDate) <= date(#{endJumun}) ORDER BY ol.orderDate desc ]]> 
+			 LIMIT #{startIndexNo}, #{pageSize};
+		</if>
+		<if test="orderStatus != '전체'">
+			SELECT ol.*, b.*
+			  FROM orderList ol
+			  JOIN baesong b USING(orderIdx)
+			<![CDATA[ WHERE b.mid = #{mid} and orderStatus = #{orderStatus} and date(ol.orderDate) >= date(#{startJumun})
+			   AND date(ol.orderDate) <= date(#{endJumun}) ORDER BY ol.orderDate desc ]]> 
+			   LIMIT #{startIndexNo}, #{pageSize};
+		</if>
+	</select>
+	
+	<select id="totRecCntAdmin" resultType="int">
+		SELECT count(*) 
+		FROM orderList ol
+		JOIN baesong b USING(orderIdx)
+		ORDER BY ol.idx DESC;
+	</select>
+	
+	<select id="adminOrderList" resultType="com.spring.cjs2108_mjyProject.vo.BaesongVO">
+		SELECT ol.* , b.* 
+		  FROM orderList ol
+		  JOIN baesong b USING(orderIdx)
+		 ORDER BY ol.idx DESC
+		 LIMIT #{startIndexNo}, #{pageSize};
+	</select>
+	
+	<select id="totRecCntAdminDateStatus" resultType="int">
+		<if test="orderStatus == '전체'">
+			SELECT count(*)
+			FROM orderList ol
+			JOIN baesong b USING(orderIdx)
+			<![CDATA[ WHERE date(ol.orderDate) >= date(#{startJumun})
+			AND date(ol.orderDate) <= date(#{endJumun}) ORDER BY ol.orderDate desc; ]]> 
+		</if>
+		<if test="orderStatus != '전체'">
+			SELECT count(*)
+			FROM orderList ol
+			JOIN baesong b USING(orderIdx)
+			<![CDATA[ WHERE orderStatus = #{orderStatus} and date(ol.orderDate) >= date(#{startJumun})
+			AND date(ol.orderDate) <= date(#{endJumun}) ORDER BY ol.orderDate desc; ]]> 
+		</if>
+	</select>
+	
+	<select id="adminOrderListDateStatus" resultType="com.spring.cjs2108_mjyProject.vo.BaesongVO">
+		<if test="orderStatus == '전체'">
+			SELECT ol.*, b.*
+			  FROM orderList ol
+			  JOIN baesong b USING(orderIdx)
+			<![CDATA[ WHERE date(ol.orderDate) >= date(#{startJumun})
+			   AND date(ol.orderDate) <= date(#{endJumun}) ORDER BY ol.orderDate desc ]]> 
+			 LIMIT #{startIndexNo}, #{pageSize};
+		</if>
+		<if test="orderStatus != '전체'">
+			SELECT ol.*, b.*
+			  FROM orderList ol
+			  JOIN baesong b USING(orderIdx)
+			<![CDATA[ WHERE orderStatus = #{orderStatus} and date(ol.orderDate) >= date(#{startJumun})
+			   AND date(ol.orderDate) <= date(#{endJumun}) ORDER BY ol.orderDate desc ]]> 
+			 LIMIT #{startIndexNo}, #{pageSize};
+		</if>
+	</select>
+	
+	<update id="setOrderStatusUpdate">
+		UPDATE baesong 
+		SET orderStatus = #{orderStatus} 
+		WHERE orderIdx = #{orderIdx};
+	</update>
+	
+	<delete id="deleteCartList">
+		DELETE 
+		FROM cartList 
+		WHERE idx in
+		<foreach collection="array" item="arr" open="(" close=")" separator=",">
+			#{arr}
+		</foreach>
+		;
+	</delete>
+	
+	<select id="getProductListArr" resultType="com.spring.cjs2108_mjyProject.vo.ProductVO">
+		SELECT * 
+		FROM product
+		WHERE idx in
+		<foreach collection="array" item = "arr" open="(" close=")" separator=",">
+			#{arr}
+		</foreach>
+		;
+	</select>
+	
+	<select id="getProductList" resultType="com.spring.cjs2108_mjyProject.vo.ProductVO">
+		<if test="part == '전체'">
+			SELECT * FROM product order by idx DESC ;
+		</if>
+		<if test= "part != '전체'">
+			SELECT pr.*, main.categoryMainName
+			FROM product pr
+			INNER JOIN categoryMain main
+			ON substring(productCode,1,1) = #{part} and main.categoryMainCode = #{part} order by idx DESC ;
+		</if>
+	</select>
+	
+	<select id="getProductListMiddle" resultType="com.spring.cjs2108_mjyProject.vo.ProductVO">
+		SELECT pr.*,  main.categoryMainName
+		FROM product pr
+		JOIN categoryMiddle middle
+		  ON substring(productCode,2,2) = #{middle} and middle.categoryMiddleCode = #{middle}
+		JOIN categoryMain main
+      ON middle.categoryMainCode = main.categoryMainCode
+	 order by idx DESC;
+	</select>
+	
+	<select id="getProductListMain" resultType="com.spring.cjs2108_mjyProject.vo.ProductVO">
+		<if test="categoryMainCode == '전체'">
+			SELECT p.*
+			  FROM product p
+			 ORDER BY idx DESC;
+		</if>
+		<if test= "categoryMainCode != '전체'">
+			SELECT p.*
+				FROM product p
+			 INNER JOIN categoryMain main
+				  ON substring(p.productCode,1,1) = main.categoryMainCode and main.categoryMainCode = #{categoryMainCode} 
+			 order by idx DESC ;
+		</if>
+	</select>
+	
+	<select id="getCategoryMiddleList" resultType="com.spring.cjs2108_mjyProject.vo.CategoryVO">
+		SELECT * 
+		FROM categoryMiddle
+		WHERE categoryMainCode = #{categoryMainCode};
+	</select>
+	
+	<select id="getProductListMainMiddle" resultType="com.spring.cjs2108_mjyProject.vo.ProductVO">
+		SELECT pr.* 
+		FROM product pr
+		INNER JOIN categoryMain main
+		ON substring(pr.productCode,1,1) = main.categoryMainCode and main.categoryMainCode = #{categoryMainCode}
+		JOIN categoryMiddle middle
+		ON substring(pr.productCode,2,2) = middle.categoryMiddleCode and middle.categoryMiddleCode = #{categoryMiddleCode};
+	</select>
+	
+	<select id="getProductListName" resultType="com.spring.cjs2108_mjyProject.vo.ProductVO">
+		SELECT *
+		FROM product
+		WHERE productName like concat('%',#{productName},'%') 
+		   OR detail like concat('%',#{productName},'%')
+		ORDER BY idx DESC;
+	</select>
+	
+	<insert id="setRecoProduct">
+		INSERT INTO recoProduct
+		VALUES (default,#{idx});
+	</insert>
+	
+	<select id="totRecCntReco" resultType="int">
+		SELECT count(*)
+		  FROM recoProduct;
+	</select>
+	
+	<select id="getRecoProductList" resultType="com.spring.cjs2108_mjyProject.vo.ProductVO">
+		SELECT * 
+		  FROM recoProduct
+		 ORDER BY idx DESC;
+	</select>
+	
+	<delete id="deleteReco">
+		DELETE FROM recoProduct
+		 WHERE productIdx = #{idx};
+	</delete>
+	
+	<select id="getNewProductList" resultType="com.spring.cjs2108_mjyProject.vo.ProductVO">
+		SELECT *
+		  FROM product
+		 ORDER BY idx DESC 
+		 LIMIT 4;
+	</select>
+	
+ 	<select id="getOrderProduct" resultType="com.spring.cjs2108_mjyProject.vo.OrderVO">
+		SELECT *
+		  FROM orderList
+		 WHERE orderIdx = #{orderIdx} and productIdx = #{productIdx};
+	</select> 
+	
+	<insert id="setReview">
+		INSERT INTO review
+		VALUES (default, #{vo.orderIdx}, #{vo.productIdx}, #{vo.rating}, #{vo.mid}, #{vo.title}, #{vo.content});
+	</insert>
+	
+	<select id="getReviewToIdx" resultType="com.spring.cjs2108_mjyProject.vo.ReviewVO">
+		SELECT *
+		  FROM review
+		 WHERE orderIdx = #{orderIdx} and productIdx = #{productIdx};
+	</select>
+	
+	<update id="updateReview">
+		UPDATE review
+		   SET rating = #{vo.rating}, title = #{vo.title}, content = #{vo.content}
+		 WHERE orderIdx = #{vo.orderIdx} and productIdx = #{vo.productIdx};
+	</update>
+	
+	<delete id="deleteReview">
+		DELETE FROM review
+		 WHERE orderIdx = #{vo.orderIdx} and productIdx = #{vo.productIdx};
+	</delete>
+	
+	<select id="getProductReview" resultType="com.spring.cjs2108_mjyProject.vo.ReviewVO"> <!-- 문제시 변경@@@@@@@@@@@ -->
+	 SELECT r.* , ol.optionName, m.nickName
+     FROM review r 
+     JOIN orderList ol
+       ON r.productIdx = ol.productIdx and r.orderIdx = ol.orderIdx and r.productIdx = #{idx}
+    INNER JOIN member m
+       ON r.mid = m.mid and r.mid = ol.mid
+    ORDER BY r.idx DESC;
+	</select>
+	
+	<select id="getAllReview" resultType="com.spring.cjs2108_mjyProject.vo.ReviewVO">
+		<if test="nickName == '전체'">
+			SELECT r.* , ol.productName ,ol.optionName, m.nickName
+			  FROM review r 
+			  JOIN orderList ol
+			    ON r.orderIdx = ol.orderIdx and r.productIdx = ol.productIdx
+			 INNER JOIN member m
+			    ON r.mid = m.mid and r.mid = ol.mid
+			 ORDER BY idx DESC;
+    </if>
+    <if test="nickName != '전체'">
+    	SELECT r.* , ol.productName, ol.optionName, m.nickName
+    	  FROM review r
+    	  JOIN orderList ol
+    	    ON r.orderIdx = ol.orderIdx and r.productIdx = ol.productIdx
+       INNER JOIN member m
+          ON r.mid = m.mid and r.mid = ol.mid and  m.nickName like concat('%',#{nickName},'%')
+       ORDER BY idx DESC;   
+    </if>
+	</select>
+	
+	<delete id="delReviewToAdmin">
+		DELETE FROM review
+		 WHERE idx = #{idx};
+	</delete>
+	
+	<select id="getPopProductList" resultType="com.spring.cjs2108_mjyProject.vo.ProductVO">
+		SELECT productIdx, round(avg(rating),2) as ratingAvg 
+      FROM review 
+ 		 GROUP BY productIdx
+    HAVING avg(rating) 
+     ORDER BY avg(rating) DESC
+     LIMIT 4;
+	</select>
+	
+	<select id="getReViewToProduct" resultType="com.spring.cjs2108_mjyProject.vo.ReviewVO">
+		SELECT r.* ,ol.productName, ol.optionName, m.nickName
+      FROM review r 
+      JOIN orderList ol
+    	  ON r.productIdx = ol.productIdx and r.orderIdx = ol.orderIdx and ol.productIdx = #{productIdx}
+ 		 INNER JOIN member m
+    		ON r.mid = m.mid and r.mid = ol.mid; 
+	</select>
+	
+	<update id="setProductUpdate">
+		<if test="fname == ''">		
+			UPDATE product
+		 	   SET productCode = #{vo.productCode}, productName = #{vo.productName}, detail = #{vo.detail}, 
+		         mainPrice = #{vo.mainPrice}, content = #{vo.content}
+			 WHERE idx = #{vo.idx};
+	  </if> 
+	  <if test="fname != ''">
+	  	UPDATE product
+	 	     SET productCode = #{vo.productCode}, productName = #{vo.productName}, detail = #{vo.detail}, 
+	           mainPrice = #{vo.mainPrice}, fName = #{vo.fName}, fSName = #{vo.fSName}, content = #{vo.content}
+			 WHERE idx = #{vo.idx};
+	  </if>
+	</update>
+	
+	<delete id="delOrder">
+		DELETE 
+		  FROM orderList
+		 WHERE orderIdx = #{orderIdx} and productIdx = #{productIdx};
+	</delete>
+	
+	
+</mapper>

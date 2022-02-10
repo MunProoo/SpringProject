@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.cjs2108_mjyProject.dao.AdminDAO">
+	<select id="getNewMember" resultType="int">
+		SELECT count(*) FROM member WHERE level = 1;
+	</select>
+
+	<select id="totRecCnt" resultType="int">
+		<if test="level == 99">
+			SELECT count(*) FROM member WHERE userDel = 'NO';
+		</if>
+		<if test="level != 99">
+			SELECT count(*) FROM member WHERE level = #{level} and userDel = 'NO';
+		</if>
+	</select>
+	
+	<select id="totRecCntMid" resultType="int">
+		SELECT count(*) FROM member WHERE mid like concat('%', #{mid}, '%');
+	</select>
+
+	<select id="getMemberList" resultType="com.spring.cjs2108_mjyProject.vo.MemberVO">
+		<if test="level == 99">
+			SELECT * 
+			  FROM member 
+			 order by idx desc limit #{startIndexNo}, #{pageSize};
+		</if>
+		<if test="level != 99">
+			SELECT * 
+			 FROM member 
+			WHERE level = #{level} 
+			order by idx desc limit #{startIndexNo}, #{pageSize};
+		</if>
+	</select>
+	
+	<select id="getMemberListMid" resultType="com.spring.cjs2108_mjyProject.vo.MemberVO">
+		SELECT * 
+		  FROM member 
+		 WHERE mid like concat('%', #{mid}, '%')
+		 order by idx desc limit #{startIndexNo}, #{pageSize};
+	</select>
+	
+	<update id="setLevelUpdate">
+		UPDATE member SET level = #{level} WHERE idx = #{idx};
+	</update>
+	
+	<select id="getMember" resultType="com.spring.cjs2108_mjyProject.vo.MemberVO">
+		SELECT * FROM member WHERE idx = #{idx};
+	</select>
+	
+	<select id="getMembersCnt" resultType="int">
+		<if test="flag == 'NO'">
+			SELECT count(*)
+		    FROM member
+		   WHERE userDel = 'NO';
+	  </if>
+		<if test="flag == 'OK'">
+			SELECT count(*)
+		    FROM member
+		   WHERE userDel = 'OK';
+		</if> 
+	</select>
+	
+	<select id="getProductCnt" resultType="int">
+		<if test="flag == '전체'">
+			SELECT count(*)
+		    FROM product;
+	  </if>
+		<if test="flag == '판매'">
+			SELECT count(distinct orderIdx)
+		    FROM orderList;
+		</if> 
+	</select>
+
+	<select id="getSales" resultType="int">
+		SELECT SUM(totalPrice)
+		  FROM orderList;
+	</select>
+	
+	<select id="getSalesList" resultType="com.spring.cjs2108_mjyProject.vo.SalesVO">
+		SELECT cm.categoryMainName as mainCategory, count(p.productCode) as sales
+		FROM orderList ol
+		JOIN product p
+		  ON ol.productIdx = p.idx
+		JOIN categoryMain cm
+		  ON cm.categoryMainCode = SUBSTRING(p.productCode,1,1)
+		GROUP BY SUBSTRING(p.productCode,1,1);
+	</select>
+	
+	<select id="getSalesPrice" resultType="com.spring.cjs2108_mjyProject.vo.SalesVO">
+		SELECT p.productName as productName, sum(ol.totalPrice) as totalPrice
+	  	FROM orderList ol
+	    JOIN product p
+	      ON ol.productIdx = p.idx
+	   GROUP BY ol.productIdx
+	   ORDER BY sum(ol.totalPrice) DESC;
+	</select>
+	
+	<select id="getSalesDate" resultType="com.spring.cjs2108_mjyProject.vo.SalesVO">
+		SELECT  SUBSTRING(ol.orderIdx,1,8) as date, sum(ol.totalPrice) as totalPrice
+		  FROM orderList ol
+		  JOIN product p
+		    ON ol.productIdx = p.idx
+		 GROUP BY SUBSTRING(ol.orderIdx,1,8);
+	</select>
+
+	<select id="getMemberListDel" resultType="com.spring.cjs2108_mjyProject.vo.MemberVO">
+		SELECT *
+		  FROM member
+		 WHERE userDel = #{userDel}
+		 LIMIT #{startIndexNo}, #{pageSize};
+	</select>
+
+</mapper>
