@@ -127,7 +127,7 @@
   			myform.tel.value = tel;
   			
 		    myform.submit();
-		}
+			}
   		else {
   			if(nickCheckOn == 0){
   				alert("닉네임 중복체크버튼을 눌러주세요!");
