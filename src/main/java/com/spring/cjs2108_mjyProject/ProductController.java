@@ -148,7 +148,10 @@ public class ProductController {
 		originalFilename = sdf.format(date) + "_" + originalFilename;
 		byte[] bytes = upload.getBytes();
 		// ckeditor에서 올린 파일을 서버 파일 시스템에 저장시킨다.
-		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/data/shop/");
+		
+		String filePath = File.separator + "resources" + File.separator + "data" + File.separator + "shop";
+		String uploadPath = request.getSession().getServletContext().getRealPath(filePath) + File.separator;
+//		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/data/shop/");
 		OutputStream outStr = new FileOutputStream(new File(uploadPath + originalFilename));
 		outStr.write(bytes);     // 서버에 업로드시킨 그림파일이 저장된다. (기본 경로)
 		
