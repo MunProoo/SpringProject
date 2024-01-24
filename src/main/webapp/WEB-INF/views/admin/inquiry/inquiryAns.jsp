@@ -67,9 +67,9 @@
 	         	success : function(data){
 	         		str += "<hr style='clear:both;color:#ccc;'/>";
 	         	 	//data.ansContent = data.ansContent.replace(/(\n|\r\n)/g, '<br>');
-	         		data.rdate = data.rdate.substring(0,11);
+	         		data.rDate = data.rDate.substring(0,11);
 	            //str += "<div style='display:inline;float:left;margin-left:10px;width:100%;'>A : <br/>"+data.ansContent+" <p><br></p>답변완료일 : "+data.rdate+"</div>";
-	            str += "<div class='textbox'><textArea rows='3' id='ansContent"+idx+"' style='width:100%;' class='form-control' readonly>"+data.ansContent+"</textArea><br><p>답변일 : "+data.rdate+"</p></div>"
+	            str += "<div class='textbox'><textArea rows='3' id='ansContent"+idx+"' style='width:100%;' class='form-control' readonly>"+data.ansContent+"</textArea><br><p>답변일 : "+data.rDate+"</p></div>"
 	            str += "<div style='float:left;width:5%;'><input type='button' id='ansBtn"+idx+"' value='답변수정' onClick='ansBtn("+idx+")' class='btn btn-info' /></div>";
 				      str += "</form></td>";
  
@@ -228,7 +228,7 @@
 	          <td class="vtd"><span class="lineheight">${inquiryVo.nickName}</span></td>
 	          <td class="vtd"><span class="lineheight">${inquiryVo.category}</span></td>
 	          <td class="vtd"><span class="lineheight">${inquiryVo.title}</span></td>
-	          <td class="vtd"><span class="lineheight">${fn:substring(inquiryVo.IDate,0,10)}</span></td>
+	          <td class="vtd"><span class="lineheight">${fn:substring(inquiryVo.iDate,0,10)}</span></td>
 	          <td>
 	          	<div style="padding:5px;">
 	          		<button class="btn btn-warning btn-sm" id="btn${inquiryVo.idx}">${inquiryVo.status}</button>

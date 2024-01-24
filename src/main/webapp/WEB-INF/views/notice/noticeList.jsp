@@ -61,8 +61,8 @@
 								</td>
 								<td>${vo.nickName}</td>
 								<td>
-									<c:if test="${vo.diffTime <= 24}">${fn:substring(vo.WDate,11,19)}</c:if>
-									<c:if test="${vo.diffTime >  24}">${fn:substring(vo.WDate,0,10)}</c:if>
+									<c:if test="${vo.diffTime <= 24}">${fn:substring(vo.wDate,11,19)}</c:if>
+									<c:if test="${vo.diffTime >  24}">${fn:substring(vo.wDate,0,10)}</c:if>
 								</td>
 									<td>${vo.readNum}</td>
 								</tr>
