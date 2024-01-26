@@ -134,7 +134,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<version>5.3.13</version>
+			<version>4.3.14.RELEASE</version>
 		</dependency>
 		<!-- mysql-connector-java -->
 		<dependency>
@@ -151,7 +151,6 @@
 			<version>1.18.12</version>
 			<scope>provided</scope>
 		</dependency>
-
 		<!-- ==================AJAX 통신 관련 (2걔)(hashmap 등)============== -->
 		<!-- jackson-databind -->
 		<dependency>
@@ -185,19 +184,19 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>5.6.0</version>
+			<version>4.2.20.RELEASE</version>
 		</dependency>
 		<!-- spring-security-web -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>5.6.0</version>
+			<version>4.2.20.RELEASE</version>
 		</dependency>
 		<!-- spring-security-config -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>5.6.0</version>
+			<version>4.2.20.RELEASE</version>
 		</dependency>
 
 		<!-- ======================SMTP를 이용한 WEB MAIL 사용하기(2개)======================== -->
@@ -211,7 +210,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
-			<version>5.3.13</version>
+			<version>4.3.14.RELEASE</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
@@ -220,7 +219,42 @@
 		    <artifactId>json-simple</artifactId>
 		    <version>1.1</version>
 		</dependency>
-		
+		<dependency>
+		    <groupId>org.apache.maven.surefire</groupId>
+		    <artifactId>surefire-booter</artifactId>
+		    <version>3.1.2</version>
+		</dependency>
+		<dependency>
+	        <groupId>org.apache.maven.surefire</groupId>
+	        <artifactId>maven-surefire-common</artifactId>
+	        <version>3.1.2</version> <!-- 원하는 버전으로 변경 -->
+	    </dependency>
+	    <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.12.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.maven/maven-plugin-api -->
+		<dependency>
+		    <groupId>org.apache.maven</groupId>
+		    <artifactId>maven-plugin-api</artifactId>
+		    <version>3.2.5</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.maven/maven-core -->
+		<dependency>
+		    <groupId>org.apache.maven</groupId>
+		    <artifactId>maven-core</artifactId>
+		    <version>3.2.5</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.maven/maven-artifact -->
+		<dependency>
+		    <groupId>org.apache.maven</groupId>
+		    <artifactId>maven-artifact</artifactId>
+		    <version>3.2.5</version>
+		</dependency>
+
+
 
 	</dependencies>
     <build>
@@ -259,6 +293,12 @@
                     <mainClass>org.test.int1.Main</mainClass>
                 </configuration>
             </plugin>
+             <plugin>
+			      <groupId>org.apache.maven.plugins</groupId>
+			      <artifactId>maven-surefire-plugin</artifactId>
+			      <version>3.1.2</version> <!-- 사용 가능한 최신 버전으로 업데이트 -->
+		    </plugin>
+		    
         </plugins>
     </build>
 </project>

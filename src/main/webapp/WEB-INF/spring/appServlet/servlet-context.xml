@@ -20,6 +20,8 @@
 	<resources mapping="/images/**" location="/resources/images/" />
 	<resources mapping="/data/**" location="/resources/data/" />
 	<resources mapping="/product/**" location="/resources/data/shop/product/" />
+	<resources mapping="/notice/**" location="/resources/data/ckeditor/notice/" />
+	<resources mapping="/board/**" location="/resources/data/ckeditor/board/" />
 	<!-- 프로젝트 외부에서 이미지를 가져오려면 어케할까? -->
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
