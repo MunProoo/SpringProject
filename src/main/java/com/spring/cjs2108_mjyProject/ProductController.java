@@ -742,7 +742,7 @@ public class ProductController {
 		List<BaesongVO> orderVos = new ArrayList<BaesongVO>();
 		
 		// 처음 불러올때의 상황 ( * 시작 날짜를 1년전으로 바꿀것.)
-		if(orderStatus.equals("전체") && startJumun=="" && endJumun=="") {
+		if(orderStatus.equals("전체") && startJumun.equals("") && endJumun.equals("")) {
 			/* 이곳부터 페이징 처리(블록페이지) 변수 지정 시작 */
 			totRecCnt = productService.totRecCntAdmin();
 			totPage = (totRecCnt % pageSize)==0 ? totRecCnt/pageSize : (totRecCnt/pageSize) + 1;
