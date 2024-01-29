@@ -9,8 +9,8 @@ public class ProductVO {
 	private String productName;
 	private String detail;
 	private int mainPrice;
-	private String fName;
-	private String fSName;
+	private String fName; // 업로드된 썸네일 이름 (굳이 DB에 저장할 필요가..?) -> 사용자가 어떤 이름의 사진을 저장했는지 알려주기 위한 목적. 
+	private String fSName; // 서버에 저장된 썸네일 파일 이름 // (앱에서 실제 사용)
 	private String content;
 	
 	private String categoryMainCode;
@@ -24,4 +24,124 @@ public class ProductVO {
 	private double ratingAvg;
 	
 	private String oriContent; // 원본 content의 내용을 저장시켜두기위한 필드
+
+	public int getIdx() {
+		return idx;
+	}
+
+	public void setIdx(int idx) {
+		this.idx = idx;
+	}
+
+	public String getProductCode() {
+		return productCode;
+	}
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
+
+	public int getMainPrice() {
+		return mainPrice;
+	}
+
+	public void setMainPrice(int mainPrice) {
+		this.mainPrice = mainPrice;
+	}
+
+	public String getFName() {
+		return fName;
+	}
+
+	public void setFName(String fName) {
+		this.fName = fName;
+	}
+
+	public String getFSName() {
+		return fSName;
+	}
+
+	public void setFSName(String fSName) {
+		this.fSName = fSName;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getCategoryMainCode() {
+		return categoryMainCode;
+	}
+
+	public void setCategoryMainCode(String categoryMainCode) {
+		this.categoryMainCode = categoryMainCode;
+	}
+
+	public String getCategoryMainName() {
+		return categoryMainName;
+	}
+
+	public void setCategoryMainName(String categoryMainName) {
+		this.categoryMainName = categoryMainName;
+	}
+
+	public String getCategoryMiddleCode() {
+		return categoryMiddleCode;
+	}
+
+	public void setCategoryMiddleCode(String categoryMiddleCode) {
+		this.categoryMiddleCode = categoryMiddleCode;
+	}
+
+	public String getCategoryMiddleName() {
+		return categoryMiddleName;
+	}
+
+	public void setCategoryMiddleName(String categoryMiddleName) {
+		this.categoryMiddleName = categoryMiddleName;
+	}
+
+	public int getProductIdx() {
+		return productIdx;
+	}
+
+	public void setProductIdx(int productIdx) {
+		this.productIdx = productIdx;
+	}
+
+	public double getRatingAvg() {
+		return ratingAvg;
+	}
+
+	public void setRatingAvg(double ratingAvg) {
+		this.ratingAvg = ratingAvg;
+	}
+
+	public String getOriContent() {
+		return oriContent;
+	}
+
+	public void setOriContent(String oriContent) {
+		this.oriContent = oriContent;
+	}
 }

@@ -15,6 +15,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.spring.cjs2108_mjyProject.dao.NoticeDAO;
 import com.spring.cjs2108_mjyProject.vo.NoticeVO;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
@@ -45,11 +47,33 @@ public class NoticeServiceImpl implements NoticeService {
 		
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 		String uploadPath = request.getRealPath("/resources/data/ckeditor/");
+
+		// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
+		// 정규표현식 패턴
+		Pattern pattern = Pattern.compile("src=\"/data/ckeditor/([^\\s\"]+)\"");
+		Matcher matcher = pattern.matcher(content);
+
+		 // 매칭된 파일명 출력
+        while (matcher.find()) {
+            String fileName = matcher.group(1);
+            System.out.println("Copy) File Name: " + fileName);
+
+			String copyFilePath = "";
+			String oriFilePath = uploadPath + fileName;	// 원본 그림이 들어있는 '경로명+파일명'
+			
+			copyFilePath = uploadPath + "notice/" + fileName;	// 복사가 될 '경로명+파일명'
+			
+			fileCopyCheck(oriFilePath, copyFilePath);	// 원본그림이 복사될 위치로 복사작업처리하는 메소드
+        }
+
+		// content : <p><img alt="" src="/data/ckeditor/240128155501_test.png" style="height:744px; width:1316px" /></p>
+		/*
 		int position = 39;
 		String nextImg = content.substring(content.indexOf("src=\"/") + position);
+		// nextImg =  ng" style="height:744px; width:1316px" /></p>
+
 		
 		boolean sw = true;
-		
 		while(sw) {
 			String imgFile = nextImg.substring(0,nextImg.indexOf("\""));
 			String copyFilePath = "";
@@ -66,6 +90,7 @@ public class NoticeServiceImpl implements NoticeService {
 				nextImg = nextImg.substring(nextImg.indexOf("src=\"/") + position);
 			}
 		}
+		*/
 	}
 	
 	//실제 파일(ckeditor폴더)을 notice폴더로 복사처리하는곳 
@@ -124,7 +149,23 @@ public class NoticeServiceImpl implements NoticeService {
 		
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 		String uploadPath = request.getRealPath("/resources/data/ckeditor/notice/");
-		
+
+		// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
+		// 정규표현식 패턴
+		Pattern pattern = Pattern.compile("src=\"/data/ckeditor/notice/([^\\s\"]+)\"");
+		Matcher matcher = pattern.matcher(content);
+
+		 // 매칭된 파일명 출력
+        while (matcher.find()) {
+            String fileName = matcher.group(1);
+            System.out.println("Delete) File Name: " + fileName);
+
+			String oriFilePath = uploadPath + fileName;	// 원본 그림이 들어있는 '경로명+파일명'
+			
+			fileDelete(oriFilePath);	// 원본그림을 삭제처리하는 메소드
+        }
+
+		/*
 		int position = 46;
 		String nextImg = content.substring(content.indexOf("src=\"/") + position);
 		boolean sw = true;
@@ -142,6 +183,7 @@ public class NoticeServiceImpl implements NoticeService {
 				nextImg = nextImg.substring(nextImg.indexOf("src=\"/") + position);
 			}
 		}
+		*/
 		
 	}
 	//원본이미지를 삭제처리하는곳(board폴더에서 삭제처리한다.)
@@ -166,9 +208,28 @@ public class NoticeServiceImpl implements NoticeService {
 		
 		if(content.indexOf("src=\"/") == -1) return;
 		
+		System.out.println("update ) content : " + content);
+		
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 		String uploadPath = request.getRealPath("/resources/data/ckeditor/notice/");
+
+		// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
+		// 정규표현식 패턴
+		Pattern pattern = Pattern.compile("src=\"/data/ckeditor/notice/([^\\s\"]+)\"");
+		Matcher matcher = pattern.matcher(content);
+
+		 // 매칭된 파일명 출력
+        while (matcher.find()) {
+            String fileName = matcher.group(1);
+            System.out.println("Update) File Name: " + fileName);
+
+			String oriFilePath = uploadPath + fileName;	// 원본 그림이 들어있는 '경로명+파일명'
+			String copyFilePath = request.getRealPath("/resources/data/ckeditor/" + fileName);
+			
+			fileCopyCheck(oriFilePath, copyFilePath);	// 원본그림이 복사될 위치로 복사작업처리하는 메소드
+        }
 		
+		/*
 		int position = 46;
 		String nextImg = content.substring(content.indexOf("src=\"/") + position);
 		boolean sw = true;
@@ -187,6 +248,7 @@ public class NoticeServiceImpl implements NoticeService {
 				nextImg = nextImg.substring(nextImg.indexOf("src=\"/") + position);
 			}
 		}
+		*/
 	}
 
 	@Override

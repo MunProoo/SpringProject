@@ -25,6 +25,8 @@ import com.spring.cjs2108_mjyProject.vo.OrderVO;
 import com.spring.cjs2108_mjyProject.vo.ProductOptionVO;
 import com.spring.cjs2108_mjyProject.vo.ProductVO;
 import com.spring.cjs2108_mjyProject.vo.ReviewVO;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -84,6 +86,7 @@ public class ProductServiceImpl implements ProductService {
 		// 먼저 썸네일을 shop/product폴더에 저장한다.
 		try {
 			String originalFilename = file.getOriginalFilename();
+			System.out.println("Thumbnail File Name : " + originalFilename);
 			if(originalFilename != "" && originalFilename != null) {
 				
 				// 상품 썸네일 업로드 처리 (중복파일명 처리와 업로드처리)
@@ -100,11 +103,8 @@ public class ProductServiceImpl implements ProductService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		//   					 0         1         2         3         4         5
-		//             012345678901234567890123456789012345678901234567890
-		// <img alt="" src="/cjs2108_mjyProject/data/shop/211229124318_4.jpg"
-		// <img alt="" src="/cjs2108_mjyProject/data/shop/product/211229124318_4.jpg"
+
+		// 상품 상세설명 이미지가 기존과 일치하는지 or 바뀌었는지를 구분할 필요성이 있는데..?
 		
 		// ckeditor을 이용해서 담은 상품의 상세설명내역에 그림이 포함되어 있으면 그림을 shop/product폴더로 복사작업처리 시켜준다.
 		String content = vo.getContent();
@@ -113,6 +113,31 @@ public class ProductServiceImpl implements ProductService {
 			HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 			String uploadPath = request.getSession().getServletContext().getRealPath("/resources/data/shop/");
 			
+			// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
+			// 정규표현식 패턴
+			Pattern pattern = Pattern.compile("src=\"/data/shop/([^\\s\"]+)\"");
+			Matcher matcher = pattern.matcher(content);
+
+			// 매칭된 파일명 출력
+			while (matcher.find()) {
+				String fileName = matcher.group(1);
+				System.out.println("Copy) File Name: " + fileName);
+
+				if(fileName.contains("product")) {
+					// 기존에 등록된 파일이므로 수정X
+					continue;
+				}
+
+				String copyFilePath = "";
+				String oriFilePath = uploadPath + fileName;	// 원본 그림이 들어있는 '경로명+파일명'
+				
+				copyFilePath = uploadPath + "product/" + fileName;	// 복사가 될 '경로명+파일명'
+				
+				fileCopyCheck(oriFilePath, copyFilePath);	// 원본그림이 복사될 위치로 복사작업처리하는 메소드
+				fileDelete(oriFilePath);   // 복사후 남아있는 원본은 삭제
+			}
+
+			/*
 			int position = 35;
 			String nextImg = content.substring(content.indexOf("src=\"/") + position);    // nexImg = 이름.jpg
 			
@@ -138,6 +163,7 @@ public class ProductServiceImpl implements ProductService {
 				if(nextImg.indexOf("src=\"/") == -1) sw = false;       // 이미지가 더 없으면 처리종료.
 				else nextImg = nextImg.substring(nextImg.indexOf("src=\"/") + position);
 			}
+			*/
 		}
 		
 		// 이미지 복사작업이 종료되면 실제로 저장된 폴더명을 vo에 set
@@ -231,12 +257,30 @@ public class ProductServiceImpl implements ProductService {
 		String uploadPath = request.getRealPath("/resources/data/shop/product/");
 		
 		// 썸네일 이미지 삭제
+		System.out.println("Thumb Delete ) fsName : " + fsName);
 		String thumbnailPath = uploadPath + fsName;
+
+		System.out.println("Thumb Delete ) thumbnailPath : " + thumbnailPath);
 		fileDelete(thumbnailPath);
 		
 		
 		if(content.indexOf("src=\"/") == -1) return;
 		
+		// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
+		// 정규표현식 패턴
+		Pattern pattern = Pattern.compile("src=\"/data/ckeditor/shop/product/([^\\s\"]+)\"");
+		Matcher matcher = pattern.matcher(content);
+
+		 // 매칭된 파일명 출력
+        while (matcher.find()) {
+            String fileName = matcher.group(1);
+            System.out.println("Delete) File Name: " + fileName);
+
+			String oriFilePath = uploadPath + fileName;	// 원본 그림이 들어있는 '경로명+파일명'
+			
+			fileDelete(oriFilePath);	// 원본그림을 삭제처리하는 메소드
+        }
+		/*
 		// 컨텐츠에 들어간 이미지 삭제 (상품 상세내용)
 		int position = 43;
 		String nextImg = content.substring(content.indexOf("src=\"/") + position);
@@ -256,17 +300,36 @@ public class ProductServiceImpl implements ProductService {
 				nextImg = nextImg.substring(nextImg.indexOf("src=\"/") + position);
 			}
 		}
+		*/
 	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void imgDelete(String content) {   // 수정할때 썸네일 냅둘경우.
+		System.out.println("Product Img Delete(No Thumbnail) : ....");
+
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 		String uploadPath = request.getRealPath("/resources/data/shop/product/");
 		
 		if(content.indexOf("src=\"/") == -1) return;
 				
 			// 컨텐츠에 들어간 이미지 삭제 (상품 상세내용)
+
+			// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
+			// 정규표현식 패턴
+			Pattern pattern = Pattern.compile("src=\"/data/shop/product/([^\\s\"]+)\"");
+			Matcher matcher = pattern.matcher(content);
+
+			// 매칭된 파일명 출력
+			while (matcher.find()) {
+				String fileName = matcher.group(1);
+				System.out.println("Delete) File Name: " + fileName);
+
+				String oriFilePath = uploadPath + fileName;	// 원본 그림이 들어있는 '경로명+파일명'
+				
+				fileDelete(oriFilePath);	// 원본그림을 삭제처리하는 메소드
+			}
+			/*
 			int position = 43;
 			String nextImg = content.substring(content.indexOf("src=\"/") + position);
 			
@@ -285,6 +348,7 @@ public class ProductServiceImpl implements ProductService {
 					nextImg = nextImg.substring(nextImg.indexOf("src=\"/") + position);
 				}
 			}
+			*/
 	}
 	
 	@Override
@@ -574,6 +638,23 @@ public class ProductServiceImpl implements ProductService {
 		// 컨텐츠파일 복사
 		if(content.indexOf("src=\"/") == -1) return;
 		
+		// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
+		// 정규표현식 패턴
+		Pattern pattern = Pattern.compile("src=\"/data/shop/product/([^\\s\"]+)\"");
+		Matcher matcher = pattern.matcher(content);
+
+		 // 매칭된 파일명 출력
+        while (matcher.find()) {
+            String fileName = matcher.group(1);
+            System.out.println("Update) File Name: " + fileName);
+
+			String oriFilePath = uploadPath + fileName;	// 원본 그림이 들어있는 '경로명+파일명'
+			String copyFilePath = request.getRealPath("/resources/data/shop/" + fileName);
+			
+			fileCopyCheck(oriFilePath, copyFilePath);	// 원본그림이 복사될 위치로 복사작업처리하는 메소드
+        }
+
+		/*
 		int position = 43;
 		String nextImg = content.substring(content.indexOf("src=\"/") + position);
 		boolean sw = true;
@@ -593,6 +674,7 @@ public class ProductServiceImpl implements ProductService {
 				nextImg = nextImg.substring(nextImg.indexOf("src=\"/") + position);
 			}
 		}
+		*/
 	}
 
 	@Override
@@ -616,6 +698,28 @@ public class ProductServiceImpl implements ProductService {
 				HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 				String uploadPath = request.getSession().getServletContext().getRealPath("/resources/data/shop/");
 				
+				// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
+				// 정규표현식 패턴
+				Pattern pattern = Pattern.compile("src=\"/data/shop/([^\\s\"]+)\"");
+				Matcher matcher = pattern.matcher(content);
+
+				// 매칭된 파일명 출력
+				while (matcher.find()) {
+					String fileName = matcher.group(1);
+					System.out.println("Update) File Name: " + fileName);
+
+					if(fileName.contains("product")) {
+						// 기존에 등록된 파일이므로 수정X
+						continue;
+					}
+
+					String oriFilePath = uploadPath + fileName;	// 원본 그림이 들어있는 '경로명+파일명'
+					String copyFilePath = uploadPath + "product/" + fileName;
+					
+					fileCopyCheck(oriFilePath, copyFilePath);	// 원본그림이 복사될 위치로 복사작업처리하는 메소드
+					fileDelete(oriFilePath);   // 복사후 남아있는 원본은 삭제
+				}
+				/*
 				int position = 35;
 				String nextImg = content.substring(content.indexOf("src=\"/") + position);    // nexImg = 이름.jpg
 				
@@ -641,6 +745,7 @@ public class ProductServiceImpl implements ProductService {
 					if(nextImg.indexOf("src=\"/") == -1) sw = false;       // 이미지가 더 없으면 처리종료.
 					else nextImg = nextImg.substring(nextImg.indexOf("src=\"/") + position);
 				}
+				*/
 			}
 			
 			// 이미지 복사작업이 종료되면 실제로 저장된 폴더명을 vo에 set

@@ -364,26 +364,26 @@ public class AdminController {
 	public String productUpdatePost(MultipartFile file, ProductVO vo) {
 		
 		String fname = file.getOriginalFilename();
-		//System.out.println("1.vo.content : " + vo.getContent());
+		System.out.println("productUpdatePost");
 		
 		if(fname == "") { // 썸네일 변경 없을시 (fName, fsName 업데이트 x)
 			productService.imgDelete(vo.getOriContent()); //원본 폴더에서 썸네일은 변경사항 없고 content 이미지는 삭제.
 			// 에러가 중간에 떠버리면 완전 망치는 것이므로 그때그때 데이터를 변경해주자!
 			vo.setContent(vo.getContent().replace("/data/shop/product/", "/data/shop/"));
 			// 이미지파일 업로드했을경우 경로폴더를 /data/shop 에서 /data/shop/product 로 옮기기(상품 등록과 동일한 작업)
-			//System.out.println("2-1.vo.content : " + vo.getContent());
+			System.out.println("2-1.vo.content : " + vo.getContent());
 			productService.imgCheckProductInput(vo,"update");
 		}
 		else { // 썸네일을 새로 올렸으면
 			productService.imgDelete(vo.getFSName(), vo.getOriContent()); //원래 저장되어있던 썸네일과 content 이미지는 삭제.
 			vo.setContent(vo.getContent().replace("/data/shop/product/", "/data/shop/"));
-			//System.out.println("2-2.vo.content : " + vo.getContent());
+			System.out.println("2-2.vo.content : " + vo.getContent());
 			productService.imgCheckProductInput(file,vo,"update");
 		}
 		
-		//System.out.println("3.vo.content : " + vo.getContent());
+		System.out.println("3.vo.content : " + vo.getContent());
 		
-		//System.out.println("vo : " + vo);
+		System.out.println("vo : " + vo);
 		productService.setProductUpdate(vo,fname);
 		
 		msgFlag = "productUpdateOK";

@@ -17,6 +17,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.spring.cjs2108_mjyProject.dao.BoardDAO;
 import com.spring.cjs2108_mjyProject.vo.BoardVO;
 import com.spring.cjs2108_mjyProject.vo.NoticeVO;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -48,6 +50,26 @@ public class BoardServiceImpl implements BoardService {
 		
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 		String uploadPath = request.getRealPath("/resources/data/ckeditor/");
+
+		// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
+		// 정규표현식 패턴
+		Pattern pattern = Pattern.compile("src=\"/data/ckeditor/([^\\s\"]+)\"");
+		Matcher matcher = pattern.matcher(content);
+
+		 // 매칭된 파일명 출력
+        while (matcher.find()) {
+            String fileName = matcher.group(1);
+            System.out.println("Copy) File Name: " + fileName);
+
+			String copyFilePath = "";
+			String oriFilePath = uploadPath + fileName;	// 원본 그림이 들어있는 '경로명+파일명'
+			
+			copyFilePath = uploadPath + "board/" + fileName;	// 복사가 될 '경로명+파일명'
+			
+			fileCopyCheck(oriFilePath, copyFilePath);	// 원본그림이 복사될 위치로 복사작업처리하는 메소드
+        }
+
+		/*
 		int position = 39;   //서버에 저장한 경로에서 파일 이름까지의 길이
 		String nextImg = content.substring(content.indexOf("src=\"/") + position);
 		
@@ -69,6 +91,7 @@ public class BoardServiceImpl implements BoardService {
 				nextImg = nextImg.substring(nextImg.indexOf("src=\"/") + position);
 			}
 		}
+		*/
 	}
 	
 	//실제 파일(ckeditor폴더)을 board폴더로 복사처리하는곳 
@@ -163,6 +186,22 @@ public class BoardServiceImpl implements BoardService {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 		String uploadPath = request.getRealPath("/resources/data/ckeditor/board/");
 		
+		// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
+		// 정규표현식 패턴
+		Pattern pattern = Pattern.compile("src=\"/data/ckeditor/board/([^\\s\"]+)\"");
+		Matcher matcher = pattern.matcher(content);
+
+		 // 매칭된 파일명 출력
+        while (matcher.find()) {
+            String fileName = matcher.group(1);
+            System.out.println("Delete) File Name: " + fileName);
+
+			String oriFilePath = uploadPath + fileName;	// 원본 그림이 들어있는 '경로명+파일명'
+			
+			fileDelete(oriFilePath);	// 원본그림을 삭제처리하는 메소드
+        }
+
+		/*
 		int position = 45;
 		String nextImg = content.substring(content.indexOf("src=\"/") + position);
 		boolean sw = true;
@@ -180,6 +219,7 @@ public class BoardServiceImpl implements BoardService {
 				nextImg = nextImg.substring(nextImg.indexOf("src=\"/") + position);
 			}
 		}
+		*/
 	}
 	
 	//원본이미지를 삭제처리하는곳(board폴더에서 삭제처리한다.)
@@ -207,6 +247,23 @@ public class BoardServiceImpl implements BoardService {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 		String uploadPath = request.getRealPath("/resources/data/ckeditor/board/");
 		
+		// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
+		// 정규표현식 패턴
+		Pattern pattern = Pattern.compile("src=\"/data/ckeditor/board/([^\\s\"]+)\"");
+		Matcher matcher = pattern.matcher(content);
+
+		 // 매칭된 파일명 출력
+        while (matcher.find()) {
+            String fileName = matcher.group(1);
+            System.out.println("Update) File Name: " + fileName);
+
+			String oriFilePath = uploadPath + fileName;	// 원본 그림이 들어있는 '경로명+파일명'
+			String copyFilePath = request.getRealPath("/resources/data/ckeditor/" + fileName);
+			
+			fileCopyCheck(oriFilePath, copyFilePath);	// 원본그림이 복사될 위치로 복사작업처리하는 메소드
+        }
+
+		/*
 		int position = 45;
 		String nextImg = content.substring(content.indexOf("src=\"/") + position);
 		boolean sw = true;
@@ -225,6 +282,7 @@ public class BoardServiceImpl implements BoardService {
 				nextImg = nextImg.substring(nextImg.indexOf("src=\"/") + position);
 			}
 		}
+		*/
 	}
 
 	@Override

@@ -46,7 +46,7 @@ public class BoardController {
 		List<BoardVO> vos = boardService.getBoardList(startIndexNo, pageSize, lately);
 		
 		for(BoardVO vo : vos) {
-			if(vo.getContent().indexOf("src=\"/") != -1 )vo.setImgCheck("ON");
+			if(vo.getContent().indexOf("img") != -1 )vo.setImgCheck("ON");
 		}
 		
 		model.addAttribute("vos", vos);
