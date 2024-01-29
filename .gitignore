@@ -93,6 +93,10 @@ local.properties
 hs_err_pid*
 replay_pid*
 
+# Ignore Maven target directory
+target/
 **/target/
+target\generated-sources\annotations
+target\generated-test-sources\test-annotations
 
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse

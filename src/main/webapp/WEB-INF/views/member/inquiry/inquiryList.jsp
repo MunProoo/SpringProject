@@ -162,8 +162,8 @@
 					</td>
 	        <td>${vo.status}</td>
 	        <td>
-						<c:if test="${vo.diffTime <= 24}">${fn:substring(vo.IDate,11,19)}</c:if>
-						<c:if test="${vo.diffTime >  24}">${fn:substring(vo.IDate,0,10)}</c:if>
+						<c:if test="${vo.diffTime <= 24}">${fn:substring(vo.iDate,11,19)}</c:if>
+						<c:if test="${vo.diffTime >  24}">${fn:substring(vo.iDate,0,10)}</c:if>
 					</td>
 					<td>
 						<input type="button" value="수정" id="inquiryUpdate${vo.idx}" class="btn btn-info" onClick="inquiryUpdate(${vo.idx})">

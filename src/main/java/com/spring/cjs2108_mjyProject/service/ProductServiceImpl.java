@@ -115,7 +115,8 @@ public class ProductServiceImpl implements ProductService {
 			
 			// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
 			// 정규표현식 패턴
-			Pattern pattern = Pattern.compile("src=\"/data/shop/([^\\s\"]+)\"");
+			Pattern pattern = Pattern.compile("src=\"/cjs2108_mjyProject/data/shop/([^\\s\"]+)\"");
+//			Pattern pattern = Pattern.compile("src=\"/data/shop/([^\\s\"]+)\"");
 			Matcher matcher = pattern.matcher(content);
 
 			// 매칭된 파일명 출력
@@ -632,7 +633,7 @@ public class ProductServiceImpl implements ProductService {
 		String uploadPath = request.getRealPath("/resources/data/shop/product/");
 		// 썸네일 복사
 		String oriFilePathThumb = uploadPath + fsName;	// 원본 그림이 들어있는 '경로명+파일명'
-		String copyFilePathThumb = request.getRealPath("/resources/data/shop/" + fsName);	// 복사가 될 '경로명+파일명'
+		String copyFilePathThumb = request.getRealPath("/resources/data/shop/") + fsName;	// 복사가 될 '경로명+파일명'
 		fileCopyCheck(oriFilePathThumb, copyFilePathThumb);
 		
 		// 컨텐츠파일 복사
@@ -640,7 +641,7 @@ public class ProductServiceImpl implements ProductService {
 		
 		// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
 		// 정규표현식 패턴
-		Pattern pattern = Pattern.compile("src=\"/data/shop/product/([^\\s\"]+)\"");
+		Pattern pattern = Pattern.compile("src=\"/cjs2108_mjyProject/data/shop/product/([^\\s\"]+)\"");
 		Matcher matcher = pattern.matcher(content);
 
 		 // 매칭된 파일명 출력
@@ -649,7 +650,7 @@ public class ProductServiceImpl implements ProductService {
             System.out.println("Update) File Name: " + fileName);
 
 			String oriFilePath = uploadPath + fileName;	// 원본 그림이 들어있는 '경로명+파일명'
-			String copyFilePath = request.getRealPath("/resources/data/shop/" + fileName);
+			String copyFilePath = request.getRealPath("/resources/data/shop/")  + fileName;
 			
 			fileCopyCheck(oriFilePath, copyFilePath);	// 원본그림이 복사될 위치로 복사작업처리하는 메소드
         }

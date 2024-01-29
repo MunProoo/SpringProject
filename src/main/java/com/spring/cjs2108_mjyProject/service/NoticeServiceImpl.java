@@ -224,7 +224,7 @@ public class NoticeServiceImpl implements NoticeService {
             System.out.println("Update) File Name: " + fileName);
 
 			String oriFilePath = uploadPath + fileName;	// 원본 그림이 들어있는 '경로명+파일명'
-			String copyFilePath = request.getRealPath("/resources/data/ckeditor/" + fileName);
+			String copyFilePath = request.getRealPath("/resources/data/ckeditor/") + fileName;
 			
 			fileCopyCheck(oriFilePath, copyFilePath);	// 원본그림이 복사될 위치로 복사작업처리하는 메소드
         }

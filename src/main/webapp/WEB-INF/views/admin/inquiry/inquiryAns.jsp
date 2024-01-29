@@ -228,7 +228,7 @@
 	          <td class="vtd"><span class="lineheight">${inquiryVo.nickName}</span></td>
 	          <td class="vtd"><span class="lineheight">${inquiryVo.category}</span></td>
 	          <td class="vtd"><span class="lineheight">${inquiryVo.title}</span></td>
-	          <td class="vtd"><span class="lineheight">${fn:substring(inquiryVo.IDate,0,10)}</span></td>
+	          <td class="vtd"><span class="lineheight">${fn:substring(inquiryVo.iDate,0,10)}</span></td>
 	          <td>
 	          	<div style="padding:5px;">
 	          		<button class="btn btn-warning btn-sm" id="btn${inquiryVo.idx}">${inquiryVo.status}</button>
