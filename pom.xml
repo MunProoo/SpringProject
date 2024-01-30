@@ -134,7 +134,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<version>5.3.13</version>
+			<version>4.3.14.RELEASE</version>
 		</dependency>
 		<!-- mysql-connector-java -->
 		<dependency>
@@ -191,13 +191,13 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>5.6.0</version>
+			<version>4.2.20.RELEASE</version>
 		</dependency>
 		<!-- spring-security-config -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>5.6.0</version>
+			<version>4.2.20.RELEASE</version>
 		</dependency>
 
 		<!-- ======================SMTP를 이용한 WEB MAIL 사용하기(2개)======================== -->
@@ -211,7 +211,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
-			<version>5.3.13</version>
+			<version>4.3.14.RELEASE</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
@@ -221,6 +221,44 @@
 		    <version>1.1</version>
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.12.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-install-plugin -->
+		<dependency>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-install-plugin</artifactId>
+		    <version>3.1.1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-clean-plugin -->
+		<dependency>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-clean-plugin</artifactId>
+		    <version>3.2.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
+		<dependency>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-surefire-plugin</artifactId>
+		    <version>3.1.2</version>
+		</dependency>
+
+
+
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.maven.shared/maven-shared-utils -->
+		<dependency>
+		    <groupId>org.apache.maven.shared</groupId>
+		    <artifactId>maven-shared-utils</artifactId>
+		    <version>3.3.4</version>
+		</dependency>
+
 
 	</dependencies>
     <build>
