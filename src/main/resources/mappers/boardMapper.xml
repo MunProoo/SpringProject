@@ -54,9 +54,16 @@
 	</update>
 	
 	<select id="getBoardReply" resultType="com.spring.cjs2108_mjyProject.vo.BoardVO">
-		SELECT * , count(*) as replyCnt
-		FROM boardReply
-		WHERE boardIdx = #{idx} order by idx;
+		SELECT br.*, sub.replyCnt
+		FROM boardReply br
+		JOIN (
+		    SELECT boardIdx, COUNT(*) AS replyCnt
+		    FROM boardReply
+		    WHERE boardIdx = #{idx}
+		    GROUP BY boardIdx
+		) sub ON br.boardIdx = sub.boardIdx
+		WHERE br.boardIdx = #{idx}
+		ORDER BY br.idx;
 	</select>
 	
 	

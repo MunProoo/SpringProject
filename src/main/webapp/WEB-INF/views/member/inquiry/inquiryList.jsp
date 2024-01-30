@@ -45,8 +45,8 @@
 	         		str += "<hr style='clear:both;color:#ccc;'/>";
 	         		data.ansContent = data.ansContent.replace(/(\n|\r\n)/g, '<br>');
 	            str += "<div style='display:inline;float:left;margin-left:10px;width:100%;'>A : <br/>"+data.ansContent+"</div>";
-	            data.rdate = data.rdate.substring(0,11);
-	            str += "<div style='display:inline;float:right;margin-right:10px;margin-top:5px;test-align:right;'>답변등록일 : "+data.rdate+"</div>";
+	            data.rDate = data.rDate.substring(0,11);
+	            str += "<div style='display:inline;float:right;margin-right:10px;margin-top:5px;test-align:right;'>답변등록일 : "+data.rDate+"</div>";
 	            /* str += "</div>"; */     
 				      str += "</td>";
 				      $("#replytr"+idx).append(str);

@@ -115,8 +115,8 @@ public class ProductServiceImpl implements ProductService {
 			
 			// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
 			// 정규표현식 패턴
-			Pattern pattern = Pattern.compile("src=\"/cjs2108_mjyProject/data/shop/([^\\s\"]+)\"");
-//			Pattern pattern = Pattern.compile("src=\"/data/shop/([^\\s\"]+)\"");
+			Pattern pattern = Pattern.compile("src=\"/data/shop/([^\\s\"]+)\"");
+			// Pattern pattern = Pattern.compile("src=\"/cjs2108_mjyProject/data/shop/([^\\s\"]+)\"");
 			Matcher matcher = pattern.matcher(content);
 
 			// 매칭된 파일명 출력
@@ -269,7 +269,8 @@ public class ProductServiceImpl implements ProductService {
 		
 		// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
 		// 정규표현식 패턴
-		Pattern pattern = Pattern.compile("src=\"/data/ckeditor/shop/product/([^\\s\"]+)\"");
+		 Pattern pattern = Pattern.compile("src=\"/data/shop/product/([^\\s\"]+)\"");
+//		Pattern pattern = Pattern.compile("src=\"/cjs2108_mjyProject/data/shop/product/([^\\s\"]+)\"");
 		Matcher matcher = pattern.matcher(content);
 
 		 // 매칭된 파일명 출력
@@ -319,6 +320,7 @@ public class ProductServiceImpl implements ProductService {
 			// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
 			// 정규표현식 패턴
 			Pattern pattern = Pattern.compile("src=\"/data/shop/product/([^\\s\"]+)\"");
+			// Pattern pattern = Pattern.compile("src=\"/cjs2108_mjyProject/data/shop/product/([^\\s\"]+)\"");
 			Matcher matcher = pattern.matcher(content);
 
 			// 매칭된 파일명 출력
@@ -641,7 +643,8 @@ public class ProductServiceImpl implements ProductService {
 		
 		// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
 		// 정규표현식 패턴
-		Pattern pattern = Pattern.compile("src=\"/cjs2108_mjyProject/data/shop/product/([^\\s\"]+)\"");
+		Pattern pattern = Pattern.compile("src=\"/data/shop/product/([^\\s\"]+)\"");
+		// Pattern pattern = Pattern.compile("src=\"/cjs2108_mjyProject/data/shop/product/([^\\s\"]+)\"");
 		Matcher matcher = pattern.matcher(content);
 
 		 // 매칭된 파일명 출력
@@ -702,6 +705,7 @@ public class ProductServiceImpl implements ProductService {
 				// 디버깅 <-> 배포 환경에서 경로가 달라지므로 ckeditor content로부터 이미지 이름 가져오는 로직 변경
 				// 정규표현식 패턴
 				Pattern pattern = Pattern.compile("src=\"/data/shop/([^\\s\"]+)\"");
+				// Pattern pattern = Pattern.compile("src=\"/cjs2108_mjyProject/data/shop/([^\\s\"]+)\"");
 				Matcher matcher = pattern.matcher(content);
 
 				// 매칭된 파일명 출력

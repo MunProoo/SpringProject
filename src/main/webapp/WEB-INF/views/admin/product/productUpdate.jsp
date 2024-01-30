@@ -135,6 +135,7 @@
 		  <input type="button" value="상품 수정" onclick="fCheck()" class="btn btn-secondary"/> &nbsp;
 		  <input type="hidden" name="oriContent"/>
 		  <input type="hidden" name="productCode" value="${vo.productCode}"/>
+		  <input type="hidden" name="fSName" value="${vo.FSName}"/>
 		  <div id="oriContent" style="display:none;">${vo.content}</div>
 		</form>
 	</div>
