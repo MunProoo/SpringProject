@@ -1,6 +1,13 @@
 # SpringProject
 MusinsaShop
-1인 프로젝트입니다. (2021.12.30 ~ 2022.02.04)
+Spring Framework 쇼핑몰 프로젝트입니다. (2021.12.30 ~ 2022.02.04)   
+(2024-01 ~ ) 배포 및 오류 수정중..
+
+# URL
+[http://158.247.252.248:8080/]
+
+admin / 1234
+로 관리자 페이지를 확인하실 수 있습니다.
 
 # Stack
 Java8, Javascript, Jquery, HTML5, CSS3, MySQL 5.7, Ajax, JSP, Daum API, CKEditor4, Google Chart
@@ -40,8 +47,7 @@ Spring Tool Suite 4, HeidiSQL, MyBatis, Apache Tomcat 9.0
 <img width="888" alt="image" src="https://github.com/MunJuYoung/SpringProject/assets/52486862/88f0e730-397c-40e5-a86a-ad7f268bdaea">
 
 
-# URL
-http://49.142.157.251:9090/cjs2108_mjyProject/
+
 
 
 
